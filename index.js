@@ -27,7 +27,6 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 })
 
 const getNameFromFacebook = (req, res) => {
-    if (dbo != null){
         ahora = new Date(); 
         hora = ahora.getHours();
         console.log('Hora: '+ hora);
@@ -41,7 +40,7 @@ const getNameFromFacebook = (req, res) => {
         }
         const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         console.log('Facebook id: '+ facebookId);
-        dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
+        client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
             console.log('User: ' + JSON.stringify(users));
             if(users.length > 0){
                 response = `${texto} ${users[0].name}, ¿Cómo podemos ayudarte?`;
@@ -52,7 +51,7 @@ const getNameFromFacebook = (req, res) => {
             }else{
                 request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                     const p = JSON.parse(body);
-                    dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
+                    client.db("pruebas").collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
                         if (err) { console.log(err);}
                         else { 
                     console.log('nombre');
@@ -67,11 +66,7 @@ const getNameFromFacebook = (req, res) => {
                 });
             }); 
             }
-        });
-    }else{
-        console.log('Error al conectar con la DB.')
-    }
-    
+        });   
 }
 
 const getNameFromWhatsapp = (req, res) => {
