@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const User = require('./user.js');
 const request = require('request');
 const client = require('mongodb').MongoClient;
+const dbo = null;
 const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test?retryWrites=true&w=majority"
 
  
@@ -26,6 +27,7 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 })
 
 const getNameFromFacebook = (req, res) => {
+    dbo = db.db("pruebas");
     ahora = new Date(); 
     hora = ahora.getHours();
     console.log('Hora: '+ hora);
@@ -50,8 +52,9 @@ const getNameFromFacebook = (req, res) => {
         }else{
             request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                 const p = JSON.parse(body);
-                const usuario = new User({name: p.first_name, facebook_id: facebookId});
-                usuario.save(); 
+                dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
+                    if (err) { console.log(err);}
+                    else { 
                 console.log('nombre');
                 console.log(p.first_name);
                 console.log(body);
@@ -60,7 +63,9 @@ const getNameFromFacebook = (req, res) => {
                 res.json({
                     fulfillmentText: response,
                 });
+            }
             });
+        }); 
         }
     });
 }
