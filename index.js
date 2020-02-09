@@ -22,52 +22,56 @@ app.listen(port, function(){
 
 client.connect(uri, { useNewUrlParser: true }, function(err, db) {
     console.log('Conexion DB');
-    const dbo = db.db("pruebas");
+    dbo = db.db("pruebas");
     if (err) {console.log('Error: ' + err); callback(err)}
 })
 
 const getNameFromFacebook = (req, res) => {
-    dbo = db.db("pruebas");
-    ahora = new Date(); 
-    hora = ahora.getHours();
-    console.log('Hora: '+ hora);
-    var texto = ''
-    if(hora < 12){
-        texto = 'Buenos días';
-    }else if(hora > 12 && hora < 18){
-        texto = 'Buenas tardes';
-    }else if(hora > 18 && hora < 24){
-        texto = 'Buenas noches';
-    }
-    const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
-    console.log('Facebook id: '+ facebookId);
-    dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
-        console.log('User: ' + JSON.stringify(users));
-        if(users.length > 0){
-            response = `${texto} ${users[0].name}, ¿Cómo podemos ayudarte?`;
-            console.log('response: ', response); 
-            res.json({
-              fulfillmentText: response,
-            });
-        }else{
-            request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
-                const p = JSON.parse(body);
-                dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
-                    if (err) { console.log(err);}
-                    else { 
-                console.log('nombre');
-                console.log(p.first_name);
-                console.log(body);
-                response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
+    if (dbo != null){
+        ahora = new Date(); 
+        hora = ahora.getHours();
+        console.log('Hora: '+ hora);
+        var texto = ''
+        if(hora < 12){
+            texto = 'Buenos días';
+        }else if(hora > 12 && hora < 18){
+            texto = 'Buenas tardes';
+        }else if(hora > 18 && hora < 24){
+            texto = 'Buenas noches';
+        }
+        const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
+        console.log('Facebook id: '+ facebookId);
+        dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
+            console.log('User: ' + JSON.stringify(users));
+            if(users.length > 0){
+                response = `${texto} ${users[0].name}, ¿Cómo podemos ayudarte?`;
                 console.log('response: ', response); 
                 res.json({
-                    fulfillmentText: response,
+                fulfillmentText: response,
                 });
+            }else{
+                request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
+                    const p = JSON.parse(body);
+                    dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
+                        if (err) { console.log(err);}
+                        else { 
+                    console.log('nombre');
+                    console.log(p.first_name);
+                    console.log(body);
+                    response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
+                    console.log('response: ', response); 
+                    res.json({
+                        fulfillmentText: response,
+                    });
+                }
+                });
+            }); 
             }
-            });
-        }); 
-        }
-    });
+        });
+    }else{
+        console.log('Error al conectar con la DB.')
+    }
+    
 }
 
 const getNameFromWhatsapp = (req, res) => {
