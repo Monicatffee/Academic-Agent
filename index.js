@@ -5,7 +5,6 @@ const User = require('./user.js');
 const request = require('request');
 const client = require('mongodb').MongoClient;
 const dbo = db.db("pruebas");
-
 const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test?retryWrites=true&w=majority";
 
 
@@ -71,7 +70,7 @@ const getNameFromFacebook = (req, res) => {
               fulfillmentText: response,
             });
         }else{
-            request(`https://graph.facebook.com/${facebookId}?fields=first_name&                access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
+            request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                 const p = JSON.parse(body);
                 //const usuario = new User({name: p.first_name, facebook_id: facebookId});
                 //usuario.save();
@@ -84,7 +83,7 @@ const getNameFromFacebook = (req, res) => {
                 });
             });
         }
-    });
+    );
 }
 
 const getNameFromWhatsapp = (req, res) => {
@@ -123,10 +122,6 @@ const getSaludo = (req, res) => {
     }
     sources[source](req, res);
 } 
-
-
-
-
 
 
  
