@@ -52,8 +52,10 @@ const getNameFromFacebook = (req, res) => {
                 const p = JSON.parse(body);
                 const usuario = new User({name: p.first_name, facebook_id: facebookId});
                 usuario.save(); 
+                console.log('nombre');
+                console.log(p.first_name);
                 console.log(body);
-                response = `${texto} ${p.first_name}, Gracias por visitarnos, para Rocketdev es un gusto atenderte \n¿Quieres conocer más sobre RocketDev? Visítanos en https://rocketdev.co/\n\n¿Cómo te podemos ayudar? `;
+                response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
                 console.log('response: ', response); 
                 res.json({
                     fulfillmentText: response,
