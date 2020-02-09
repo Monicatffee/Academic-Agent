@@ -1,11 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const User = require('./user.js');
 const request = require('request');
- 
-mongoose.connect('mongodb://rocket:r0ck3td3v3l0pm3nt@157.230.75.138:27017/rocket', {useNewUrlParser: true});
+const client = require('mongodb').MongoClient;
+const dbo = db.db("pruebas");
 
+const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test?retryWrites=true&w=majority";
+
+
+app.post('/', async (req, res) => {
+    console.log('Body: ' + JSON.stringify(req.body));
+
+    client.connect(uri, { useNewUrlParser: true }, function(err, db) {
+        console.log('Conexion DB');
+        if (err) {console.log('Error: ' + err); callback(err)}
+        const intencion = req.body.queryResult.intent.displayName;
+        console.log('Intencion: ', intencion);
+        const opciones = {
+            Saludo: getSaludo,
+            'Pizza - yes': getAppointment
+        };
+        const funcion = opciones[intencion];
+        if (typeof funcion === 'function') {
+            funcion(req, res);
+        }
+        client.close();
+    });
+});
+
+
+    
+
+
+
+ 
+//mongoose.connect('mongodb://rocket:r0ck3td3v3l0pm3nt@157.230.75.138:27017/rocket', {useNewUrlParser: true});
 const APP_TOKEN = 'EAAhgQgglppwBAF6dhss9XrzCTXJGuZBLZCjic2bJygijEWNe9pUj7vtMwJXZCKC0zx2bJZBLIklxgw9TZApm7f5Q3LTYvHw0j4VmGn5Rg1lfZCBcZB0QNJmMhEpZC7yZAgSYIJVAmqjJzzpzbX222UIEIZB7xViGc7AWkzScIb1DtIL3RdSZBkcbP0UyyrflqUMFTUZD';
 const port = process.env.PORT || 3000;
 
@@ -31,7 +61,8 @@ const getNameFromFacebook = (req, res) => {
     }
     const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
     console.log('Facebook id: '+ facebookId);
-    User.find({ facebook_id: facebookId}, (err, users) => {
+    dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
+    //User.find({ facebook_id: facebookId}, (err, users) => {
         console.log('User: ' + JSON.stringify(users));
         if(users.length > 0){
             response = `${texto} ${users[0].name}, ¿Cómo podemos ayudarte?`;
@@ -40,12 +71,13 @@ const getNameFromFacebook = (req, res) => {
               fulfillmentText: response,
             });
         }else{
-            request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
+            request(`https://graph.facebook.com/${facebookId}?fields=first_name&                access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                 const p = JSON.parse(body);
-                const usuario = new User({name: p.first_name, facebook_id: facebookId});
-                usuario.save(); 
+                //const usuario = new User({name: p.first_name, facebook_id: facebookId});
+                //usuario.save();
+                dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
                 console.log(body);
-                response = `${texto} ${p.first_name}, Gracias por visitarnos, para Rocketdev es un gusto atenderte \n¿Quieres conocer más sobre RocketDev? Visítanos en https://rocketdev.co/\n\n¿Cómo te podemos ayudar? `;
+                response = `${texto} ${p.first_name}, Gracias por visitarnos, para PizzaShop es un gusto atenderte \n¿Ya conoces todas nuestras pizzas? \n\n¿Cómo te podemos ayudar? `;
                 console.log('response: ', response); 
                 res.json({
                     fulfillmentText: response,
@@ -66,7 +98,7 @@ const getNameFromWhatsapp = (req, res) => {
     }else if(hora > 18 && hora < 24){
         texto = 'Buenas noches';
     }
-    response = `${texto}, gracias por contactarnos. \n¿Cómo te podemos ayudar? `;
+    response = `${texto}, gracias por contactarnos. \n¿Ya sabes que Pizza quieres probar? `;
     console.log('response: ', response); 
     res.json({
         fulfillmentText: response,
@@ -75,7 +107,7 @@ const getNameFromWhatsapp = (req, res) => {
 }
 
 const getAppointment = (req, res) => {
-    response = `Perfecto, espera nuestra llamada.`;
+    response = `Perfecto, en 30 minutos estaremos ahí.`;
     console.log('response: ', response); 
     res.json({
         fulfillmentText: response,
@@ -92,21 +124,6 @@ const getSaludo = (req, res) => {
     sources[source](req, res);
 } 
 
-app.post('/', async (req, res) => {
-    console.log('Al menos entro.');
-    console.log('Body: ' + JSON.stringify(req.body));
-    
-    const intencion = req.body.queryResult.intent.displayName;
-      console.log('Intencion: ', intencion);
-      const opciones = {
-        Saludo: getSaludo,
-        'Costos+AgendarCita - yes': getAppointment
-      };
-      const funcion = opciones[intencion];
-      if (typeof funcion === 'function') {
-        funcion(req, res);
-    }
-});
 
 
 
