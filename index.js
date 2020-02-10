@@ -40,8 +40,8 @@ const getNameFromFacebook = (req, res) => {
         }
         const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         console.log('Facebook id: '+ facebookId);
-        const users = client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId});
-       // client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
+        //const users = client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId});
+        dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
             console.log('User: ' + JSON.stringify(users));
             if(users.length > 0){
                 response = `${texto} ${users[0].name}, ¿Cómo podemos ayudarte?`;
@@ -52,7 +52,7 @@ const getNameFromFacebook = (req, res) => {
             }else{
                 request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                     const p = JSON.parse(body);
-                    client.db("pruebas").collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
+                    dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
                         if (err) { console.log(err);}
                         else { 
                     console.log('nombre');
@@ -67,7 +67,7 @@ const getNameFromFacebook = (req, res) => {
                 });
             }); 
             }
-        //});   
+        });   
 }
 
 const getNameFromWhatsapp = (req, res) => {
