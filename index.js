@@ -38,7 +38,8 @@ const getNameFromFacebook = (req, res) => {
         }else if(hora > 18 && hora < 24){
             texto = 'Buenas noches';
         }
-        const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
+        //const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
+        const facebookId = req.body.originalDetectIntentRequest.payload.data.recipient.id;
         console.log('Facebook id: '+ facebookId);
         //const users = client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId});
         dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
