@@ -58,8 +58,8 @@ const getNameFromFacebook = (req, res) => {
                     console.log(p.first_name);
                     console.log(body);
                     dbo.collection("pizzashop").save({name: p.first_name, facebook_id: facebookId}, function(err,doc) {
-                        if (err) { console.log(err);}
-                        else { 
+                        if (err) {console.log('Error: ' + err); callback(err);
+                        }else { 
                             response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
                             console.log('response: ', response); 
                             res.json({
@@ -70,7 +70,6 @@ const getNameFromFacebook = (req, res) => {
                 callback(null, response);
             }); 
             }
-            callback(null, response);
         });   
 }
 
