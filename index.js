@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const User = require('./user.js');
 const request = require('request');
 const client = require('mongodb').MongoClient;
-const dbo = null;
+let dbo = null;
 const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test?retryWrites=true&w=majority"
 
  
