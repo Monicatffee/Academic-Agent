@@ -73,7 +73,8 @@ const getNameFromFacebook = (req, res) => {
 
 const getNameFromWhatsapp = (req, res) => {
     ahora = new Date(); 
-    hora = ahora.getHours();
+    hora = (ahora.getHours()-5);
+    console.log('Hora: '+ hora);
     hora = hora-5;
     var texto = ''
     if(hora < 12){
