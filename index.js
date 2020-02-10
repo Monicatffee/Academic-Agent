@@ -27,8 +27,9 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 
 const getNameFromFacebook = (req, res) => {
         ahora = new Date(); 
-        hora = parseInt(ahora.getHours()-5);
+        hora = (ahora.getHours()-5);
         console.log('Hora: '+ hora);
+        hora = hora-5;
         var texto = ''
         if(hora < 12){
             texto = 'Buenos días';
@@ -72,7 +73,8 @@ const getNameFromFacebook = (req, res) => {
 
 const getNameFromWhatsapp = (req, res) => {
     ahora = new Date(); 
-    hora = parseInt(ahora.getHours()-5);
+    hora = ahora.getHours();
+    hora = hora-5;
     var texto = ''
     if(hora < 12){
         texto = 'Buenos días';
