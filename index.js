@@ -27,7 +27,7 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 
 const getNameFromFacebook = (req, res) => {
         ahora = new Date(); 
-        hora = ahora.getHours()-5;
+        hora = (ahora.getHours()-5);
         console.log('Hora: '+ hora);
         var texto = ''
         if(hora < 12){
@@ -48,9 +48,6 @@ const getNameFromFacebook = (req, res) => {
                 fulfillmentText: response,
                 });
             }else{
-                console.log('Entro al else');
-                //"https://graph.facebook.com/v6.0/${facebookId}?fields=id%2Cfirst_name&access_token=EAAHwi1O8TI0BAJ6hvkxHhIoCX3mZAn1qJUUyJ65MvtFqgsoLe3rqHEWybSUC8agXZCr10w0mm6iE1wd70EmNNn6ZAW31zjGTZAp6L2lK2liOXIN8UvghlNrf4P1cJ9YQJCjiEcZCrMO2yKFZCnEYtcC11mZBf2tVLBxvqw6nOJjQKb28PzFcH97I4W625JLZAkBIr3wdu891thsWTYISZCAtw"
-                //https://graph.facebook.com/v2.8/oauth/access_token?grant_type=fb_exchange_token&client_id=545956172680333&client_secret=57a609f69ee83fc76041b697e775cdb0&fb_exchange_token=EAAHwi1O8TI0BAF5sfs1t0fzHgHAwPQNBx48znA39UsjCKFR7YisNBriLOZBbC6QFmybRNZBZCxV5jwiWxv3PzOPQUaztwYFIP1IZCUywrq94JEex15k6hg3oeZBFuavlzYnFsKv5WGXTLFPMd3hyCFht06tTpXk6tJPytZBoZBLiMuGkyB4CnMhANkkv8UD8YhcBVETfCkmaHYnCeyFLAB5
                 request(`https://graph.facebook.com/v6.0/10222098590717264?fields=first_name&access_token=EAAHwi1O8TI0BAMFUQOVsm7AZBzVNlZBUpZAvKeyhPM2rIEvVAzaK9HlrEaoj8txktrd2LD86djqe0vEIaASaIZBYxZAP1ZBGLjDOlICPTAlFlmWa5f1PcPxZCpZBnjIGQPEKKHbZBgSoaqnTs0Ke2gzhSdz9aHGj7I76QFtAkNstXBcEqZBMoj7p9foRJ9dY3IxjAi7ul2WN5KxNAwkhcIxquz`, (error, response, body)=>{
                     const p = JSON.parse(body);
                     console.log('nombre');
@@ -75,7 +72,7 @@ const getNameFromFacebook = (req, res) => {
 
 const getNameFromWhatsapp = (req, res) => {
     ahora = new Date(); 
-    hora = ahora.getHours()-5;
+    hora = (ahora.getHours()-5);
     var texto = ''
     if(hora < 12){
         texto = 'Buenos días';
@@ -99,18 +96,13 @@ const getAppointment = (req, res) => {
         console.log('User: ' + JSON.stringify(users));
         if(users.length > 0){
             dbo.collection("pizzashop").update({ facebook_id: facebookId},
-                { $set: {phone: 3207416387}}), function(err,doc) {
-                    if (err) { console.log(err);}
-                        else { 
-                            response = `Perfecto, en 30 minutos estaremos ahí.`;
-                            console.log('response: ', response); 
-                            res.json({
-                                fulfillmentText: response,
-                            });
-                            return(response);
-                        }
-
-                }
+                { $set: {phone: 3207416387}})
+                response = `Perfecto, en 30 minutos estaremos ahí.`;
+                console.log('response: ', response); 
+                res.json({
+                    fulfillmentText: response,
+                });
+                return(response);
         }else 
             {
                 response = `Aun no estas registrado con nosotros.`;
