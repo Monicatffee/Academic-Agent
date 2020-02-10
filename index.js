@@ -37,10 +37,8 @@ const getNameFromFacebook = (req, res) => {
         }else if(hora > 18 && hora < 24){
             texto = 'Buenas noches';
         }
-        //const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         console.log('Facebook id: '+ facebookId);
-        //const users = client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId});
         dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
             console.log('User: ' + JSON.stringify(users));
             if(users.length > 0){
@@ -53,7 +51,8 @@ const getNameFromFacebook = (req, res) => {
                 console.log('Entro al else');
                 //"https://graph.facebook.com/v6.0/${facebookId}?fields=id%2Cfirst_name&access_token=EAAHwi1O8TI0BAJ6hvkxHhIoCX3mZAn1qJUUyJ65MvtFqgsoLe3rqHEWybSUC8agXZCr10w0mm6iE1wd70EmNNn6ZAW31zjGTZAp6L2lK2liOXIN8UvghlNrf4P1cJ9YQJCjiEcZCrMO2yKFZCnEYtcC11mZBf2tVLBxvqw6nOJjQKb28PzFcH97I4W625JLZAkBIr3wdu891thsWTYISZCAtw"
                 //https://graph.facebook.com/v2.8/oauth/access_token?grant_type=fb_exchange_token&client_id=545956172680333&client_secret=57a609f69ee83fc76041b697e775cdb0&fb_exchange_token=EAAHwi1O8TI0BAF5sfs1t0fzHgHAwPQNBx48znA39UsjCKFR7YisNBriLOZBbC6QFmybRNZBZCxV5jwiWxv3PzOPQUaztwYFIP1IZCUywrq94JEex15k6hg3oeZBFuavlzYnFsKv5WGXTLFPMd3hyCFht06tTpXk6tJPytZBoZBLiMuGkyB4CnMhANkkv8UD8YhcBVETfCkmaHYnCeyFLAB5
-                request(`https://graph.facebook.com/v6.0/10222098590717264?fields=id%2Cfirst_name&access_token=EAAHwi1O8TI0BAKtuE0GJTfgqXjyJz3p9n43nwJCejmqi8mnZAFs3ZCxh8w2oTAcrZCrjqZCidzpWOSjpEeZAiHP4yPgZCiEQvJuoNFOsfwWvV2qUugZCbW3eWOUxnZAcvWcggHo6wJZBtIK8jjtNo4WuVmNslwYbgdo7aupFfM4nbYdaYHBzuJZCR4BbvMAZAkcj9wirRFSmwIqSurIWVYGaYaU`, (error, response, body)=>{
+                request(`curl -i -X GET \
+                "https://graph.facebook.com/v6.0/10222098590717264?fields=first_name&access_token=EAAHwi1O8TI0BACLhtANSDohZCo74lNEpnkzBzKT59BcjbqXyeQLZBOyNm0LZCuCsZBXqjL3gGcM0mKToF5481wXewEV0e4H241pSjYpjZBgzS1ND11ZBvOupUVnQ9RMvgwOFZAihWCLEuRCHbmvxFFq6FXCn3xAAScqY3PljygcOXo7xRp39tljLb4q7eZCc8rHycEqGMUxMXAYscr6qpJeB"`, (error, response, body)=>{
                     const p = JSON.parse(body);
                     console.log('nombre');
                     console.log(p.first_name);
