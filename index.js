@@ -100,13 +100,17 @@ const getAppointment = (req, res) => {
         if(users.length > 0){
             dbo.collection("pizzashop").update({ facebook_id: facebookId},
                 { $set: {phone: 3207416387}}), function(err,doc) {
-                     response = `Perfecto, en 30 minutos estaremos ahí.`;
-                     console.log('response: ', response); 
-                     res.json({
-                         fulfillmentText: response,
-                     });
-                    return(response);
-                }          
+                    if (err) { console.log(err);}
+                        else { 
+                            response = `Perfecto, en 30 minutos estaremos ahí.`;
+                            console.log('response: ', response); 
+                            res.json({
+                                fulfillmentText: response,
+                            });
+                            return(response);
+                        }
+
+                }
         }else 
             {
                 response = `Aun no estas registrado con nosotros.`;
@@ -114,7 +118,8 @@ const getAppointment = (req, res) => {
                 res.json({
                     fulfillmentText: response,
                 });
-            return(response);}
+                return(response);
+            }
     }); 
 }
 
