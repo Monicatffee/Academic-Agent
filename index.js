@@ -52,18 +52,18 @@ const getNameFromFacebook = (req, res) => {
             }else{
                 request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                     const p = JSON.parse(body);
-                    dbo.collection("pizzashop").findOneAndUpdate({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
-                        if (err) { console.log(err);}
-                        else { 
                     console.log('nombre');
                     console.log(p.first_name);
                     console.log(body);
-                    response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
-                    console.log('response: ', response); 
-                    res.json({
-                        fulfillmentText: response,
-                    });
-                }
+                    dbo.collection("pizzashop").updateOne({name: p.first_name, facebook_id: facebookId}, {upsert: true}, function(err,doc) {
+                        if (err) { console.log(err);}
+                        else { 
+                            response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
+                            console.log('response: ', response); 
+                            res.json({
+                                fulfillmentText: response,
+                            });
+                        }
                 });
             }); 
             }
