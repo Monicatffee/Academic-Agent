@@ -9,7 +9,7 @@ const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test
 
  
 //mongoose.connect('mongodb://rocket:r0ck3td3v3l0pm3nt@157.230.75.138:27017/rocket', {useNewUrlParser: true});
-const APP_TOKEN = 'EAAhgQgglppwBAF6dhss9XrzCTXJGuZBLZCjic2bJygijEWNe9pUj7vtMwJXZCKC0zx2bJZBLIklxgw9TZApm7f5Q3LTYvHw0j4VmGn5Rg1lfZCBcZB0QNJmMhEpZC7yZAgSYIJVAmqjJzzpzbX222UIEIZB7xViGc7AWkzScIb1DtIL3RdSZBkcbP0UyyrflqUMFTUZD';
+const APP_TOKEN = 'EAAHwi1O8TI0BAF5sfs1t0fzHgHAwPQNBx48znA39UsjCKFR7YisNBriLOZBbC6QFmybRNZBZCxV5jwiWxv3PzOPQUaztwYFIP1IZCUywrq94JEex15k6hg3oeZBFuavlzYnFsKv5WGXTLFPMd3hyCFht06tTpXk6tJPytZBoZBLiMuGkyB4CnMhANkkv8UD8YhcBVETfCkmaHYnCeyFLAB5';
 const port = process.env.PORT || 3000;
 
 var app = express();
