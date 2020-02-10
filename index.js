@@ -52,7 +52,7 @@ const getNameFromFacebook = (req, res) => {
                 });
             }else{
                 console.log('Entro al else');
-                request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
+                request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAHwi1O8TI0BAF5sfs1t0fzHgHAwPQNBx48znA39UsjCKFR7YisNBriLOZBbC6QFmybRNZBZCxV5jwiWxv3PzOPQUaztwYFIP1IZCUywrq94JEex15k6hg3oeZBFuavlzYnFsKv5WGXTLFPMd3hyCFht06tTpXk6tJPytZBoZBLiMuGkyB4CnMhANkkv8UD8YhcBVETfCkmaHYnCeyFLAB5`, (error, response, body)=>{
                     const p = JSON.parse(body);
                     console.log('nombre');
                     console.log(p.first_name);
