@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const mongoose = require('mongoose');
-const User = require('./user.js');
 const request = require('request');
 const client = require('mongodb').MongoClient;
 let dbo = null;
+let facebookId  = null;
 const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test?retryWrites=true&w=majority"
 
  
@@ -28,7 +27,7 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 
 const getNameFromFacebook = (req, res) => {
         ahora = new Date(); 
-        hora = ahora.getHours();
+        hora = ahora.getHours()-5;
         console.log('Hora: '+ hora);
         var texto = ''
         if(hora < 12){
@@ -39,7 +38,7 @@ const getNameFromFacebook = (req, res) => {
             texto = 'Buenas noches';
         }
         //const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
-        const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
+        facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         console.log('Facebook id: '+ facebookId);
         //const users = client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId});
         dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
@@ -78,7 +77,7 @@ const getNameFromFacebook = (req, res) => {
 
 const getNameFromWhatsapp = (req, res) => {
     ahora = new Date(); 
-    hora = ahora.getHours();
+    hora = ahora.getHours()-5;
     var texto = ''
     if(hora < 12){
         texto = 'Buenos días';
@@ -96,11 +95,27 @@ const getNameFromWhatsapp = (req, res) => {
 }
 
 const getAppointment = (req, res) => {
-    response = `Perfecto, en 30 minutos estaremos ahí.`;
-    console.log('response: ', response); 
-    res.json({
-        fulfillmentText: response,
-    });
+    dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
+        console.log('User: ' + JSON.stringify(users));
+        if(users.length > 0){
+            dbo.collection("pizzashop").update({ facebook_id: facebookId},
+                { $set: {phone: 3207416387}}), function(err,doc) {
+                     response = `Perfecto, en 30 minutos estaremos ahí.`;
+                     console.log('response: ', response); 
+                     res.json({
+                         fulfillmentText: response,
+                     });
+                 }
+        }
+        response = `Aun no estas registrado con nosotros.`;
+                     console.log('response: ', response); 
+                     res.json({
+                         fulfillmentText: response,
+                     });
+        return(response);
+    }); 
+
+    
 }
 
 const getSaludo = (req, res) => {
@@ -121,7 +136,7 @@ app.post('/', async (req, res) => {
       console.log('Intencion: ', intencion);
       const opciones = {
         Saludo: getSaludo,
-        'Costos+Pizza- yes': getAppointment
+        'Elegir Pizza - yes': getAppointment
       };
       const funcion = opciones[intencion];
       if (typeof funcion === 'function') {
