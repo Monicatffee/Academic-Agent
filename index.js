@@ -118,7 +118,7 @@ app.post('/', async (req, res) => {
       console.log('Intencion: ', intencion);
       const opciones = {
         Saludo: getSaludo,
-        'Costos+AgendarCita - yes': getAppointment
+        'Costos+Pizza- yes': getAppointment
       };
       const funcion = opciones[intencion];
       if (typeof funcion === 'function') {
