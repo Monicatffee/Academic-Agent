@@ -53,7 +53,7 @@ const getNameFromFacebook = (req, res) => {
             }else{
                 console.log('Entro al else');
                 https://graph.facebook.com/v2.8/oauth/access_token?grant_type=fb_exchange_token&client_id=545956172680333&client_secret=57a609f69ee83fc76041b697e775cdb0&fb_exchange_token=EAAHwi1O8TI0BAF5sfs1t0fzHgHAwPQNBx48znA39UsjCKFR7YisNBriLOZBbC6QFmybRNZBZCxV5jwiWxv3PzOPQUaztwYFIP1IZCUywrq94JEex15k6hg3oeZBFuavlzYnFsKv5WGXTLFPMd3hyCFht06tTpXk6tJPytZBoZBLiMuGkyB4CnMhANkkv8UD8YhcBVETfCkmaHYnCeyFLAB5
-                request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAHwi1O8TI0BAPYUcxNkKKMm36HYMewgbWQWwpNmmLipyqll7JVNZBbR4bBHz06YWyZBEvpOEZBPzvFH0iOTP16LEdZAzh381Dd1Hcp5ht4p0HbZAWugo5OVeZARnvhAx16CZCZC0fHZAZCqI8a4dsWwcXQ2P3i7217uZCWvyqqn1sW6iCxg5YKoiVN`, (error, response, body)=>{
+                request(`https://graph.facebook.com/${facebookId}?fields=name&access_token=EAAHwi1O8TI0BAPYUcxNkKKMm36HYMewgbWQWwpNmmLipyqll7JVNZBbR4bBHz06YWyZBEvpOEZBPzvFH0iOTP16LEdZAzh381Dd1Hcp5ht4p0HbZAWugo5OVeZARnvhAx16CZCZC0fHZAZCqI8a4dsWwcXQ2P3i7217uZCWvyqqn1sW6iCxg5YKoiVN`, (error, response, body)=>{
                     const p = JSON.parse(body);
                     console.log('nombre');
                     console.log(p.first_name);
