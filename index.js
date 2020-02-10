@@ -50,6 +50,7 @@ const getNameFromFacebook = (req, res) => {
                 fulfillmentText: response,
                 });
             }else{
+                console.log('Entro al else');
                 request(`https://graph.facebook.com/${facebookId}?fields=first_name&access_token=EAAhgQgglppwBAHBCxQEhnoZA9EHwyZCyaN8QmTHR8JiTAnUnr7iZCWyCdmZCJ2jEyOZCjWODeTCb2LQNZA0IzBzHmTT7EFSYEsqCTPnaYZBwLl8ftcT3jW9GrPz7ZCwJYZBYBEQUyn6yxTFZAMQvkZBFonPB2fLCTTZAIYncwCnl5k4mXLOdJExGJDOqCBHQ82XcH8IZD`, (error, response, body)=>{
                     const p = JSON.parse(body);
                     console.log('nombre');
@@ -65,11 +66,9 @@ const getNameFromFacebook = (req, res) => {
                             });
                         }
                 });
-                db.close();
                 callback(null, response);
             }); 
             }
-            db.close();
             callback(null, response);
         });   
 }
