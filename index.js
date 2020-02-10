@@ -40,7 +40,8 @@ const getNameFromFacebook = (req, res) => {
         }
         const facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         console.log('Facebook id: '+ facebookId);
-        client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
+        const users = client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId});
+       // client.db("pruebas").collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
             console.log('User: ' + JSON.stringify(users));
             if(users.length > 0){
                 response = `${texto} ${users[0].name}, ¿Cómo podemos ayudarte?`;
@@ -66,7 +67,7 @@ const getNameFromFacebook = (req, res) => {
                 });
             }); 
             }
-        });   
+        //});   
 }
 
 const getNameFromWhatsapp = (req, res) => {
