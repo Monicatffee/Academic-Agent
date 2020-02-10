@@ -106,16 +106,16 @@ const getAppointment = (req, res) => {
                          fulfillmentText: response,
                      });
                  }
-        }
-        response = `Aun no estas registrado con nosotros.`;
-                     console.log('response: ', response); 
-                     res.json({
-                         fulfillmentText: response,
-                     });
-        return(response);
+            return(response);
+        }else 
+            {
+                response = `Aun no estas registrado con nosotros.`;
+                console.log('response: ', response); 
+                res.json({
+                    fulfillmentText: response,
+                });
+            return(response);}
     }); 
-
-    
 }
 
 const getSaludo = (req, res) => {
