@@ -65,8 +65,12 @@ const getNameFromFacebook = (req, res) => {
                             });
                         }
                 });
+                db.close();
+                callback(null, response);
             }); 
             }
+            db.close();
+            callback(null, response);
         });   
 }
 
