@@ -105,7 +105,7 @@ const getAppointment = (req, res) => {
         console.log('User: ' + JSON.stringify(users));
         if(users.length > 0){
             dbo.collection("pizzashop").update({ facebook_id: facebookId},
-                { $push: {order:{date: ahora, phone: phone, type: tipo, size: tamano}}});
+                { $push: { order: {date: ahora, phone: phone, type: tipo, size: tamano}}});
                 response = `Perfecto, en 30 minutos estaremos ahí.`;
                 console.log('response: ', response); 
                 res.json({
