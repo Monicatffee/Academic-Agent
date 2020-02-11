@@ -93,7 +93,7 @@ const getNameFromWhatsapp = (req, res) => {
 }
 
 const getAppointment = (req, res) => {
-    var phone = req.body.queryResult.parameters.phone-number;
+    //var phone = req.body.queryResult.parameters;
     console.log('Pintando la respuesta');
     console.log(req.body.queryResult.parameters);
     console.log(req.body.queryResult.outputContexts);
