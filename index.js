@@ -96,7 +96,7 @@ const getAppointment = (req, res) => {
     const phone = req.body.queryResult.parameters['phone-number'];
     //const tipo = req.body.queryResult.outputContexts.parameters.TipoPizza;
     //const tamano = req.body.queryResult.outputContexts.parameters.TamanoPizza;
-    console.log(phone, tipo, tamano)
+    console.log(phone)
     console.log('Pintando la respuesta');
     console.log(req.body.queryResult.parameters);
     console.log(req.body.queryResult.utputContexts.parameters);
