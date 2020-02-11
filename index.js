@@ -93,11 +93,12 @@ const getNameFromWhatsapp = (req, res) => {
 }
 
 const getAppointment = (req, res) => {
-    console.log('Body apppskwidneunwdmwdwdiewmdeef: ' + JSON.stringify(req.body));
     const phone = req.body.queryResult.parameters['phone-number'];
+    const tipo = req.body.queryResult.utputContexts.parameters.TipoPizza;
+    const tamano = req.body.queryResult.utputContexts.parameters.TamanoPizza; 
     //const tipo = req.body.queryResult.outputContexts.parameters.TipoPizza;
     //const tamano = req.body.queryResult.outputContexts.parameters.TamanoPizza;
-    console.log(phone)
+    console.log(phone, tipo, tamano)
     console.log('Pintando la respuesta');
     facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
     console.log('Facebook id: '+ facebookId);
@@ -137,7 +138,7 @@ const getSaludo = (req, res) => {
 app.post('/', async (req, res) => {
     console.log('Al menos entro.');
     console.log('Body: ' + JSON.stringify(req.body));
-    //console.log(req.body.queryResult.utputContexts.parameters);
+    //console.log(req.body.queryResult.utputContexts.parameters.TipoPizza);
     const intencion = req.body.queryResult.intent.displayName;
       console.log('Intencion: ', intencion);
       const opciones = {
