@@ -94,8 +94,8 @@ const getNameFromWhatsapp = (req, res) => {
 
 const getAppointment = (req, res) => {
     const phone = req.body.queryResult.parameters['phone-number'];
-    const tipo = req.body.queryResult.outputContexts.parameters.TipoPizza;
-    const tamano = req.body.queryResult.outputContexts.parameters.TamanoPizza; 
+    const tipo = req.body.queryResult.outputContexts.parameters[0].TipoPizza;
+    const tamano = req.body.queryResult.outputContexts.parameters[0].TamanoPizza; 
     //const tipo = req.body.queryResult.outputContexts.parameters.TipoPizza;
     //const tamano = req.body.queryResult.outputContexts.parameters.TamanoPizza;
     console.log(phone, tipo, tamano)
