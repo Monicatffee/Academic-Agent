@@ -93,10 +93,13 @@ const getNameFromWhatsapp = (req, res) => {
 }
 
 const getAppointment = (req, res) => {
-    //var phone = req.body.queryResult.parameters;
+    const phone = req.body.queryResult.parameters['phone-number'];
+    const tipo = req.body.queryResult.outputContexts.TipoPizza;
+    const tamano = req.body.queryResult.outputContexts.TamanoPizza;
+    console.log(phone, tipo, tamano)
     console.log('Pintando la respuesta');
     console.log(req.body.queryResult.parameters);
-    console.log(req.body.queryResult.outputContexts);
+    console.log(req.body.queryResult.outputContexts.TipoPizza);
     facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
     console.log('Facebook id: '+ facebookId);
     dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
