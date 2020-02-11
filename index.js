@@ -89,6 +89,7 @@ const getNameFromWhatsapp = (req, res) => {
     res.json({
         fulfillmentText: response,
     });
+    return(response);
 
 }
 
