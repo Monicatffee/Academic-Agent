@@ -94,8 +94,8 @@ const getNameFromWhatsapp = (req, res) => {
 
 const getAppointment = (req, res) => {
     const phone = req.body.queryResult.parameters['phone-number'];
-    const tipo = req.body.queryResult.utputContexts.parameters.TipoPizza;
-    const tamano = req.body.queryResult.utputContexts.parameters.TamanoPizza; 
+    const tipo = req.body.queryResult.outputContexts.parameters.TipoPizza;
+    const tamano = req.body.queryResult.outputContexts.parameters.TamanoPizza; 
     //const tipo = req.body.queryResult.outputContexts.parameters.TipoPizza;
     //const tamano = req.body.queryResult.outputContexts.parameters.TamanoPizza;
     console.log(phone, tipo, tamano)
@@ -106,7 +106,7 @@ const getAppointment = (req, res) => {
         console.log('User: ' + JSON.stringify(users));
         if(users.length > 0){
             dbo.collection("pizzashop").update({ facebook_id: facebookId},
-                { $set: {phone: 3207416387}})
+                { $set: {phone: phone, type: tipo, size: tamano}})
                 response = `Perfecto, en 30 minutos estaremos ahí.`;
                 console.log('response: ', response); 
                 res.json({
