@@ -93,6 +93,8 @@ const getNameFromWhatsapp = (req, res) => {
 }
 
 const getAppointment = (req, res) => {
+    console.log('Pintando la respuesta');
+    console.log(req);
     facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
     console.log('Facebook id: '+ facebookId);
     dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
