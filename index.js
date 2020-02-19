@@ -20,9 +20,10 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 })
 
 function get_daytime(){
-    ahora = Date.now();
-    console.log('Ahora: ', ahora);
-    hora = ahora+5;
+    ahora = new Date(); 
+    hora = (ahora.getHours()-5);
+    console.log('Hora: '+ hora);
+    hora = hora+7;
     var texto = ''
     if(hora < 12){
         texto = 'Buenos días';
