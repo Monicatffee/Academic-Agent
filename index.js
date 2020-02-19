@@ -20,9 +20,7 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 })
 
 function get_daytime(){
-    ahora = new Date(); 
-    console.log('Ahora', ahora);
-    hora = (ahora.getHours()-5);
+    hora = Date.now();
     console.log('Hora: '+ hora);
     hora = hora-5;
     var texto = ''
@@ -50,7 +48,7 @@ const getNameFromFacebook = (req, res) => {
                     const p = JSON.parse(body);
                     console.log('Imprimiendo p');
                     console.log(p)
-                    dbo.collection("pizzashop").save({name: p.first_name, facebook_id: facebookId}, function(err,doc) {
+                    dbo.collection("pizzashop").save({name: p.name, facebook_id: facebookId}, function(err,doc) {
                         if (err) { console.log(err);}
                         else { 
                             response = `${texto} ${p.first_name}, Gracias por visitarnos, para Pizzashop es un gusto atenderte.\n\n¿Cómo te podemos ayudar? `;
