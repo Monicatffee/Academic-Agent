@@ -24,7 +24,7 @@ function get_daytime(){
     hora = (ahora.getHours());
     console.log('Hora: '+ hora);
     var texto = ''
-    if(hora < 17){
+    if(hora > 6 && hora < 17){
         texto = 'Buenos días';
     }else if(hora > 17 && hora < 23){
         texto = 'Buenas tardes';
