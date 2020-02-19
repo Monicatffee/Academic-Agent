@@ -21,14 +21,14 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 
 function get_daytime(){
     ahora = new Date(); 
-    hora = (ahora.getHours()+7);
+    hora = (ahora.getHours());
     console.log('Hora: '+ hora);
     var texto = ''
-    if(hora < 12){
+    if(hora < 17){
         texto = 'Buenos días';
-    }else if(hora > 12 && hora < 18){
+    }else if(hora > 17 && hora < 23){
         texto = 'Buenas tardes';
-    }else if(hora > 18 && hora < 24){
+    }else if(hora > 0 && hora < 5){
         texto = 'Buenas noches';
     }
     return texto;
