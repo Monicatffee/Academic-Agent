@@ -44,7 +44,7 @@ const getNameFromFacebook = (req, res) => {
                 fulfillmentText: response,
                 });
             }else{
-                    request(`https://graph.facebook.com/v6.0/10222098590717264?fields=id%2Cfirst_name%2Cname&access_token=EAAHwi1O8TI0BAInw4pwt1sLcmJgwZAmTqiRUjQyymI3bXZBFhtLPAKFOOwZAVhCWgd1t3WCDHkEEQkuZCU4g3ZCxi9LX3wmKL761nwJd1ejcrUsNtyYUlQjDVnnGVTZC0wMZBpw0j5C97ZCbmUk8bq1iZAJQ3eBImHlEq8jaKw9IMhRrlDsDwXfl9GXWzHGOOaukq3VEGpxiBZBPVwXfOcEH95`, (error, response, body)=>{
+                    request(`https://graph.facebook.com/v6.0/10222098590717264?fields=first_name%2Cname&access_token=EAAHwi1O8TI0BAJIAswZBciVYAh5kyluNFSSo3RpikQJdJflHOKmcJZAD9iIfm5jrSxElvug61KxuZB069SWsLsaneGDFle2sFkmM2IBxRhXsNMDFQeeWG6ZA1euiG9S6TpOv1dFSLTZCgtYVgMJccyIBr3RtQLHjnYQGMSiZBy6l59KclIn7g2DDtMrvTlzxxV6xmsLbnd2tELe11F08kz`, (error, response, body)=>{
                     const p = JSON.parse(body);
                     dbo.collection("pizzashop").save({name: p.first_name, facebook_id: facebookId}, function(err,doc) {
                         if (err) { console.log(err);}
