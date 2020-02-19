@@ -5,12 +5,7 @@ const client = require('mongodb').MongoClient;
 let dbo = null;
 let facebookId  = null;
 const uri = "mongodb+srv://userExp:userExp@clusterpruebas-7wtyk.mongodb.net/test?retryWrites=true&w=majority"
-
- 
-//mongoose.connect('mongodb://rocket:r0ck3td3v3l0pm3nt@157.230.75.138:27017/rocket', {useNewUrlParser: true});
-const APP_TOKEN = 'EAAHwi1O8TI0BAPYUcxNkKKMm36HYMewgbWQWwpNmmLipyqll7JVNZBbR4bBHz06YWyZBEvpOEZBPzvFH0iOTP16LEdZAzh381Dd1Hcp5ht4p0HbZAWugo5OVeZARnvhAx16CZCZC0fHZAZCqI8a4dsWwcXQ2P3i7217uZCWvyqqn1sW6iCxg5YKoiVN';
 const port = process.env.PORT || 3000;
-
 var app = express();
 
 app.use(bodyParser.json());
@@ -25,19 +20,24 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
     if (err) {console.log('Error: ' + err); callback(err)}
 })
 
+function get_daytime(){
+    ahora = new Date(); 
+    hora = (ahora.getHours()-5);
+    console.log('Hora: '+ hora);
+    hora = hora-5;
+    var texto = ''
+    if(hora < 12){
+        texto = 'Buenos días';
+    }else if(hora > 12 && hora < 18){
+        texto = 'Buenas tardes';
+    }else if(hora > 18 && hora < 24){
+        texto = 'Buenas noches';
+    }
+    return texto;
+}
+
 const getNameFromFacebook = (req, res) => {
-        ahora = new Date(); 
-        hora = (ahora.getHours()-5);
-        console.log('Hora: '+ hora);
-        hora = hora-5;
-        var texto = ''
-        if(hora < 12){
-            texto = 'Buenos días';
-        }else if(hora > 12 && hora < 18){
-            texto = 'Buenas tardes';
-        }else if(hora > 18 && hora < 24){
-            texto = 'Buenas noches';
-        }
+        texto = get_daytime()
         facebookId = req.body.originalDetectIntentRequest.payload.data.sender.id;
         console.log('Facebook id: '+ facebookId);
         dbo.collection("pizzashop").find({ facebook_id: facebookId}).toArray(async function(err, users) {
@@ -72,18 +72,7 @@ const getNameFromFacebook = (req, res) => {
 }
 
 const getNameFromWhatsapp = (req, res) => {
-    ahora = new Date(); 
-    hora = (ahora.getHours()-5);
-    console.log('Hora: '+ hora);
-    hora = hora-5;
-    var texto = ''
-    if(hora < 12){
-        texto = 'Buenos días';
-    }else if(hora > 12 && hora < 18){
-        texto = 'Buenas tardes';
-    }else if(hora > 18 && hora < 24){
-        texto = 'Buenas noches';
-    }
+    texto = get_daytime()
     response = `${texto}, gracias por contactarnos. \n¿Ya sabes que Pizza quieres probar? `;
     console.log('response: ', response); 
     res.json({
@@ -134,6 +123,8 @@ const getSaludo = (req, res) => {
     }
     sources[source](req, res);
 }
+
+
 
 app.post('/', async (req, res) => {
     console.log('Al menos entro.');
