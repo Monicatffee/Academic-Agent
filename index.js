@@ -21,6 +21,7 @@ client.connect(uri, { useNewUrlParser: true }, function(err, db) {
 
 function get_daytime(){
     ahora = new Date(); 
+    console.log('Ahora', ahora);
     hora = (ahora.getHours()-5);
     console.log('Hora: '+ hora);
     hora = hora-5;
@@ -47,6 +48,8 @@ const getNameFromFacebook = (req, res) => {
             }else{
                 request(`https://graph.facebook.com/v6.0/10222098590717264?fields=id%2Cname&access_token=EAAHwi1O8TI0BAEoMeZBHyGoVSKRPoSDqR0yZAsTb3Gas3RIvxU2Pt26NIFtpvUSFIPZApuQJi35yN6Lq6rm5RsCZCPFAFIoEYjQ6Q1mUf6GwnHVytaFerX9VRfkO3jz5iE5MUzFMSWzoP8d0lBKNAG29lknxX4dlcxMlZAuRsUyUJbQM3jbkv6Xuw0rxeZC9EIBP56yIWuz36hqSwXC5vE`, (error, response, body)=>{
                     const p = JSON.parse(body);
+                    console.log('Imprimiendo p');
+                    console.log(p)
                     dbo.collection("pizzashop").save({name: p.first_name, facebook_id: facebookId}, function(err,doc) {
                         if (err) { console.log(err);}
                         else { 
